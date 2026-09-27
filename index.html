@@ -57,22 +57,37 @@
     background: var(--creme);
   }
 
-  h1, h2, h3, .logo-text {
+  h1, h2, h3 {
     font-family: 'Playfair Display', Georgia, serif;
     font-weight: 600;
   }
 
-  .btn-header, .btn-cta, .tag-pill, nav a, .btn-add, .btn-outline {
+  .btn-header, .tag-pill, nav a, .btn-add {
     font-family: 'Jost', 'Segoe UI', Arial, sans-serif;
     letter-spacing: 0.4px;
   }
 
   /* ===== HEADER ===== */
   header {
-    background: linear-gradient(155deg, var(--rosa) 0%, var(--rosa-claro) 100%);
     position: relative;
     padding-bottom: 40px;
+    z-index: 50;
+  }
+
+  /* O recorte ondulado fica num pseudo-elemento de fundo, não no header em si,
+     assim o menu-wrap (dropdown mobile) não é cortado pelo clip-path. */
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(155deg, var(--rosa) 0%, var(--rosa-claro) 100%);
     clip-path: url(#waveClip);
+    z-index: 0;
+  }
+
+  header .section-inner {
+    position: relative;
+    z-index: 1;
   }
 
   .cart-flutuante {
@@ -181,21 +196,6 @@
     height: 100%;
     object-fit: cover;
     display: block;
-  }
-
-  .logo-text {
-    font-weight: 700;
-    font-size: 20px;
-    letter-spacing: 1px;
-    color: var(--rosa-texto);
-  }
-
-  .logo-text span {
-    display: block;
-    font-weight: 400;
-    font-size: 12px;
-    color: var(--rosa-texto);
-    letter-spacing: 2px;
   }
 
   nav ul {
@@ -524,35 +524,12 @@
     letter-spacing: 2px;
   }
 
-  .categoria-img img,
   .produto-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     border-radius: inherit;
-  }
-
-  /* ===== EFEITO METÁLICO (rosé gold) EM TÍTULOS ===== */
-  .metalico {
-    background-image: linear-gradient(
-      115deg,
-      #8a5a34 0%,
-      #d9a879 12%,
-      #fbe3c8 24%,
-      #b8794f 36%,
-      #7a4a2e 48%,
-      #f3d5ae 60%,
-      #b8794f 72%,
-      #fbe3c8 84%,
-      #8a5a34 100%
-    );
-    background-size: 250% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent !important;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.35);
   }
 
   /* Lado direito: cartão com o nome/tagline, em rosa suave */
@@ -582,15 +559,6 @@
     max-width: 320px;
     height: auto;
     display: block;
-  }
-
-  .hero-content .tagline {
-    font-family: 'Jost', 'Segoe UI', Arial, sans-serif;
-    font-size: 12px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    opacity: 0.95;
-    font-weight: 400;
   }
 
   .hero-content p {
@@ -627,112 +595,6 @@
     }
   }
 
-  /* ===== SOBRE ===== */
-  #sobre {
-    padding-top: 20px;
-    padding-bottom: 60px;
-  }
-
-  .sobre-card {
-    background: var(--rosa-claro);
-    border-radius: 24px;
-    padding: 48px;
-  }
-
-  .sobre-top {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: center;
-  }
-
-  .sobre-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--rosa-texto);
-    margin-bottom: 16px;
-  }
-
-  .sobre-eyebrow::before {
-    content: "";
-    width: 20px;
-    height: 1px;
-    background: var(--rosa-texto);
-  }
-
-  .sobre-text h2 {
-    font-size: 34px;
-    line-height: 1.2;
-    color: var(--rosa-texto);
-    margin-bottom: 16px;
-  }
-
-  .sobre-text p {
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--rosa-texto);
-    max-width: 420px;
-    margin-bottom: 24px;
-  }
-
-  .btn-outline {
-    background: transparent;
-    border: 1.5px solid var(--rosa-texto);
-    color: var(--rosa-texto);
-    padding: 12px 28px;
-    border-radius: 30px;
-    font-size: 14px;
-    cursor: pointer;
-  }
-
-  .btn-outline:hover {
-    background: var(--rosa-texto);
-    color: var(--branco);
-  }
-
-  .sobre-image {
-    background: var(--rosa);
-    border-radius: 20px;
-    aspect-ratio: 4/3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--branco);
-    font-size: 14px;
-    text-align: center;
-    padding: 20px;
-  }
-
-  .sobre-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-top: 48px;
-  }
-
-  .sobre-mini-card {
-    padding: 20px;
-    border-radius: 16px;
-  }
-
-  .sobre-mini-card:nth-child(1) { background: var(--rosa); }
-  .sobre-mini-card:nth-child(2) { background: var(--branco); }
-  .sobre-mini-card:nth-child(3) { background: var(--branco); }
-
-  .sobre-mini-card h3 {
-    font-size: 16px;
-    color: var(--rosa-texto);
-    margin-bottom: 8px;
-  }
-
-  .sobre-mini-card p {
-    font-size: 13px;
-    color: var(--rosa-texto);
-    line-height: 1.5;
-  }
-
   /* ===== PRODUTOS ===== */
   #produtos {
     padding-top: 20px;
@@ -745,48 +607,6 @@
     color: var(--rosa-texto);
     margin-bottom: 32px;
     letter-spacing: 1px;
-  }
-
-  .categorias {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 56px;
-  }
-
-  .categoria-item {
-    text-align: center;
-    text-decoration: none;
-    display: block;
-    cursor: pointer;
-    width: calc(20% - 13px);
-  }
-
-  .categoria-img {
-    aspect-ratio: 1/1;
-    background: var(--rosa-claro);
-    border-radius: 50%;
-    border: 2px solid var(--cobre-claro);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--rosa-texto);
-    font-size: 13px;
-    text-align: center;
-    overflow: hidden;
-    margin: 0 auto 10px;
-    max-width: 100px;
-    transition: border-color 0.2s ease;
-  }
-
-  .categoria-item:hover .categoria-img {
-    border-color: var(--cobre);
-  }
-
-  .categoria-item span {
-    font-size: 15px;
-    color: var(--rosa-texto);
   }
 
   .destaques-titulo {
@@ -890,13 +710,6 @@
     width: 15px;
     height: 15px;
     fill: var(--branco);
-  }
-
-  .footer-whats {
-    font-size: 12px;
-    color: var(--branco);
-    text-decoration: none;
-    opacity: 0.9;
   }
 
   .footer-copy {
@@ -1330,39 +1143,6 @@
     }
     .tags {
       justify-content: center;
-    }
-    .sobre-card {
-      padding: 28px 20px;
-    }
-    .sobre-top {
-      grid-template-columns: 1fr;
-    }
-    .sobre-text {
-      text-align: center;
-    }
-    .sobre-eyebrow {
-      justify-content: center;
-    }
-    .sobre-text p {
-      max-width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .sobre-cards {
-      grid-template-columns: 1fr;
-    }
-    .categorias {
-      gap: 16px 10px;
-    }
-    .categoria-item {
-      width: calc(33.333% - 7px);
-    }
-    .categoria-img {
-      max-width: 72px;
-      font-size: 11px;
-    }
-    .categoria-item span {
-      font-size: 12px;
     }
     .produtos-grid .produto-card {
       flex: 0 0 calc((100% - 16px) / 2);
