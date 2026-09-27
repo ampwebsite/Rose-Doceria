@@ -1,0 +1,2155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rose Doceria</title>
+<link rel="icon" type="image/png" href="assets/imagens/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --rosa: #F3A9B4;
+    --rosa-escuro: #E37F90;
+    --rosa-texto: #B23A55;
+    --rosa-claro: #FDE6EA;
+    --cobre: #B8794F;
+    --cobre-claro: #D9A879;
+    --branco: #FFFFFF;
+    --creme: #FFFBF8;
+    --texto: #6B3040;
+    --texto-claro: #9B5D6C;
+
+    /* Método de área útil: largura máx. do conteúdo por faixa de tela */
+    --content-max-width: 360px;
+    --layout-gap: 16px;
+  }
+
+  @media (min-width: 768px) {
+    :root { --content-max-width: 728px; --layout-gap: 16px; }
+  }
+  @media (min-width: 881px) {
+    :root { --content-max-width: 780px; --layout-gap: 16px; }
+  }
+  @media (min-width: 1025px) {
+    :root { --content-max-width: 924px; --layout-gap: 16px; }
+  }
+  @media (min-width: 1201px) {
+    :root { --content-max-width: 980px; --layout-gap: 32px; }
+  }
+  @media (min-width: 1367px) {
+    :root { --content-max-width: 1120px; --layout-gap: 32px; }
+  }
+
+  .section-inner {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  body {
+    font-family: 'Jost', 'Segoe UI', Arial, sans-serif;
+    font-weight: 300;
+    color: var(--rosa-texto);
+    background: var(--creme);
+  }
+
+  h1, h2, h3, .logo-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+  }
+
+  .btn-header, .btn-cta, .tag-pill, nav a, .btn-add, .btn-outline {
+    font-family: 'Jost', 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 0.4px;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: linear-gradient(155deg, var(--rosa) 0%, var(--rosa-claro) 100%);
+    position: relative;
+    padding-bottom: 40px;
+    clip-path: url(#waveClip);
+  }
+
+  .cart-flutuante {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--rosa), var(--rosa-escuro));
+    color: var(--branco);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    cursor: pointer;
+    z-index: 89;
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .cart-flutuante.visivel {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .cart-flutuante svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .cart-flutuante-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--branco);
+    color: var(--rosa-texto);
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 1.5px solid var(--branco);
+  }
+
+  header .section-inner {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    gap: var(--layout-gap);
+  }
+
+  .menu-wrap {
+    display: flex;
+    align-items: center;
+    gap: var(--layout-gap);
+  }
+
+  /* Hambúrguer só aparece no mobile (ver media query abaixo) */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  .hamburger span {
+    width: 24px;
+    height: 2px;
+    background: var(--rosa-texto);
+    border-radius: 2px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-placeholder {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--rosa);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .logo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .logo-text {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: var(--rosa-texto);
+  }
+
+  .logo-text span {
+    display: block;
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--rosa-texto);
+    letter-spacing: 2px;
+  }
+
+  nav ul {
+    display: flex;
+    list-style: none;
+    gap: 32px;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--rosa-texto);
+    font-size: 15px;
+  }
+
+  .btn-header {
+    background: linear-gradient(135deg, var(--rosa), var(--rosa-escuro));
+    color: var(--branco);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .btn-header:hover {
+    opacity: 0.88;
+  }
+
+  /* ===== CARRINHO ===== */
+  .cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 90;
+  }
+
+  .cart-overlay.aberto {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .cart-painel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 360px;
+    max-width: 90vw;
+    background: var(--creme);
+    box-shadow: -8px 0 24px rgba(0,0,0,0.15);
+    z-index: 91;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+  }
+
+  .cart-painel.aberto {
+    transform: translateX(0);
+  }
+
+  .cart-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 2px solid var(--rosa);
+  }
+
+  .cart-topo h3 {
+    font-size: 18px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    color: var(--rosa-texto);
+  }
+
+  .cart-fechar {
+    background: none;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--rosa-texto);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .cart-lista {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 24px;
+  }
+
+  .cart-vazio {
+    color: var(--rosa-texto);
+    opacity: 0.7;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 24px;
+  }
+
+  .cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rosa-claro);
+  }
+
+  .cart-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cart-item-nome {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--rosa-texto);
+  }
+
+  .cart-item-preco {
+    font-size: 13px;
+    color: var(--rosa-texto);
+    opacity: 0.75;
+  }
+
+  .cart-item-qtd {
+    font-size: 12px;
+    color: var(--rosa-texto);
+    opacity: 0.6;
+  }
+
+  .cart-item-remover {
+    background: none;
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--rosa-texto);
+    opacity: 0.6;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+
+  .cart-item-remover:hover {
+    opacity: 1;
+  }
+
+  .cart-acoes {
+    display: flex;
+    gap: 10px;
+    padding: 0 24px 16px;
+  }
+
+  .cart-btn-secundario {
+    flex: 1;
+    background: none;
+    border: 1px solid var(--rosa-escuro);
+    color: var(--rosa-texto);
+    border-radius: 20px;
+    padding: 10px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: opacity 0.2s ease, background 0.2s ease;
+  }
+
+  .cart-btn-secundario:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .cart-btn-secundario:not(:disabled):hover {
+    background: var(--rosa-claro);
+  }
+
+  .cart-rodape {
+    padding: 20px 24px;
+    border-top: 2px solid var(--rosa);
+  }
+
+  .cart-pagamento {
+    margin-bottom: 16px;
+  }
+
+  .cart-pagamento-label {
+    display: block;
+    font-size: 13px;
+    color: var(--rosa-texto);
+    margin-bottom: 8px;
+  }
+
+  .cart-pagamento-opcoes {
+    display: flex;
+    gap: 8px;
+  }
+
+  .pagamento-pill {
+    flex: 1;
+    background: none;
+    border: 1px solid var(--rosa-escuro);
+    color: var(--rosa-texto);
+    border-radius: 20px;
+    padding: 9px 10px;
+    font-size: 13px;
+    font-family: 'Jost', 'Segoe UI', Arial, sans-serif;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .pagamento-pill:hover {
+    background: var(--rosa-claro);
+  }
+
+  .pagamento-pill.selecionada {
+    background: var(--rosa-escuro);
+    color: var(--branco);
+  }
+
+  .cart-pagamento-opcoes.erro .pagamento-pill {
+    border-color: #C0392B;
+  }
+
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    color: var(--rosa-texto);
+  }
+
+  .cart-total span {
+    font-size: 14px;
+  }
+
+  .cart-total strong {
+    font-size: 20px;
+  }
+
+  .cart-btn-finalizar {
+    width: 100%;
+    background: linear-gradient(135deg, var(--rosa), var(--rosa-escuro));
+    color: var(--branco);
+    border: none;
+    border-radius: 20px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Jost', 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .cart-btn-finalizar:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .cart-btn-finalizar:not(:disabled):hover {
+    opacity: 0.9;
+  }
+
+  /* ===== HERO (split: imagem + cartão) ===== */
+  .hero.section-inner {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .hero-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 2px solid var(--cobre-claro);
+  }
+
+  /* Lado esquerdo: imagem (placeholder) */
+  .hero-image {
+    position: relative;
+    background: var(--rosa-claro);
+    color: var(--rosa-texto);
+    font-size: 14px;
+    text-align: center;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .hero-image img,
+  .hero-image video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-image {
+    cursor: pointer;
+  }
+
+  .hero-slide {
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+
+  .hero-slide.ativa {
+    opacity: 1;
+  }
+
+  .hero-image.pausado::after {
+    content: '\275A\275A';
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    z-index: 2;
+    font-size: 14px;
+    color: var(--branco);
+    background: rgba(0,0,0,0.45);
+    padding: 4px 8px;
+    border-radius: 6px;
+    letter-spacing: 2px;
+  }
+
+  .categoria-img img,
+  .produto-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: inherit;
+  }
+
+  /* ===== EFEITO METÁLICO (rosé gold) EM TÍTULOS ===== */
+  .metalico {
+    background-image: linear-gradient(
+      115deg,
+      #8a5a34 0%,
+      #d9a879 12%,
+      #fbe3c8 24%,
+      #b8794f 36%,
+      #7a4a2e 48%,
+      #f3d5ae 60%,
+      #b8794f 72%,
+      #fbe3c8 84%,
+      #8a5a34 100%
+    );
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+  }
+
+  /* Lado direito: cartão com o nome/tagline, em rosa suave */
+  .hero-content {
+    background: linear-gradient(155deg, var(--rosa-claro) 0%, var(--creme) 100%);
+    color: var(--rosa-texto);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 48px;
+    gap: 20px;
+  }
+
+  .hero-content h1 {
+    font-size: 52px;
+    line-height: 1.1;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 0;
+  }
+
+  .hero-logo {
+    align-self: center;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    display: block;
+  }
+
+  .hero-content .tagline {
+    font-family: 'Jost', 'Segoe UI', Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.95;
+    font-weight: 400;
+  }
+
+  .hero-content p {
+    font-size: 15px;
+    line-height: 1.6;
+    opacity: 0.9;
+    max-width: 380px;
+  }
+
+  .tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .tag-pill {
+    border: 1px solid var(--cobre-claro);
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  @media (min-width: 901px) {
+    .tags {
+      flex-wrap: nowrap;
+      gap: 8px;
+    }
+    .tag-pill {
+      padding: 8px 12px;
+      white-space: nowrap;
+    }
+  }
+
+  /* ===== SOBRE ===== */
+  #sobre {
+    padding-top: 20px;
+    padding-bottom: 60px;
+  }
+
+  .sobre-card {
+    background: var(--rosa-claro);
+    border-radius: 24px;
+    padding: 48px;
+  }
+
+  .sobre-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .sobre-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--rosa-texto);
+    margin-bottom: 16px;
+  }
+
+  .sobre-eyebrow::before {
+    content: "";
+    width: 20px;
+    height: 1px;
+    background: var(--rosa-texto);
+  }
+
+  .sobre-text h2 {
+    font-size: 34px;
+    line-height: 1.2;
+    color: var(--rosa-texto);
+    margin-bottom: 16px;
+  }
+
+  .sobre-text p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--rosa-texto);
+    max-width: 420px;
+    margin-bottom: 24px;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--rosa-texto);
+    color: var(--rosa-texto);
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .btn-outline:hover {
+    background: var(--rosa-texto);
+    color: var(--branco);
+  }
+
+  .sobre-image {
+    background: var(--rosa);
+    border-radius: 20px;
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--branco);
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .sobre-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .sobre-mini-card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .sobre-mini-card:nth-child(1) { background: var(--rosa); }
+  .sobre-mini-card:nth-child(2) { background: var(--branco); }
+  .sobre-mini-card:nth-child(3) { background: var(--branco); }
+
+  .sobre-mini-card h3 {
+    font-size: 16px;
+    color: var(--rosa-texto);
+    margin-bottom: 8px;
+  }
+
+  .sobre-mini-card p {
+    font-size: 13px;
+    color: var(--rosa-texto);
+    line-height: 1.5;
+  }
+
+  /* ===== PRODUTOS ===== */
+  #produtos {
+    padding-top: 20px;
+    padding-bottom: 60px;
+  }
+
+  .produtos-titulo {
+    text-align: center;
+    font-size: 22px;
+    color: var(--rosa-texto);
+    margin-bottom: 32px;
+    letter-spacing: 1px;
+  }
+
+  .categorias {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+
+  .categoria-item {
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    width: calc(20% - 13px);
+  }
+
+  .categoria-img {
+    aspect-ratio: 1/1;
+    background: var(--rosa-claro);
+    border-radius: 50%;
+    border: 2px solid var(--cobre-claro);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--rosa-texto);
+    font-size: 13px;
+    text-align: center;
+    overflow: hidden;
+    margin: 0 auto 10px;
+    max-width: 100px;
+    transition: border-color 0.2s ease;
+  }
+
+  .categoria-item:hover .categoria-img {
+    border-color: var(--cobre);
+  }
+
+  .categoria-item span {
+    font-size: 15px;
+    color: var(--rosa-texto);
+  }
+
+  .destaques-titulo {
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rosa-texto);
+    margin-bottom: 24px;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    margin-top: 40px;
+  }
+
+  .footer-body {
+    background: linear-gradient(155deg, var(--rosa-escuro) 0%, var(--rosa-texto) 100%);
+    color: var(--branco);
+    padding-top: 36px;
+    clip-path: url(#waveClipRodape);
+  }
+
+  .footer-conteudo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    padding: 10px 0;
+  }
+
+  .footer-logo {
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    text-align: center;
+    color: var(--branco);
+    opacity: 0.8;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .footer-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    list-style: none;
+  }
+
+  .footer-nav a {
+    color: var(--branco);
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  .footer-nav a:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  .footer-social {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-social-icones {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .footer-social-icones a {
+    color: var(--branco);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .footer-social-icones svg {
+    width: 15px;
+    height: 15px;
+    fill: var(--branco);
+  }
+
+  .footer-whats {
+    font-size: 12px;
+    color: var(--branco);
+    text-decoration: none;
+    opacity: 0.9;
+  }
+
+  .footer-copy {
+    font-size: 10px;
+    opacity: 0.85;
+    padding: 8px 0;
+    border-top: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .footer-copy-linha {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-copy-linha span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 10px;
+  }
+
+  .footer-copy-linha .footer-rights {
+    text-align: left;
+    min-width: 0;
+  }
+
+  .footer-copy-linha .footer-nav {
+    gap: 12px;
+    font-size: 10px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    justify-self: center;
+    min-width: 0;
+  }
+
+  .footer-copy-linha .footer-dev {
+    text-align: right;
+    min-width: 0;
+  }
+
+  .footer-copy-linha .footer-dev a {
+    color: var(--branco);
+    text-decoration: underline;
+    opacity: 0.95;
+    font-size: 10px;
+  }
+
+  .footer-copy-linha .footer-dev a:hover {
+    opacity: 1;
+  }
+
+  @media (max-width: 700px) {
+    .footer-conteudo {
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+  }
+
+  @media (max-width: 780px) {
+    .footer-copy-linha {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-copy-linha span {
+      white-space: normal;
+      text-align: center;
+    }
+
+    .footer-copy-linha .footer-nav {
+      order: 1;
+      gap: 8px;
+      font-size: 9px;
+      justify-content: center;
+    }
+
+    .footer-copy-linha .footer-rights {
+      order: 2;
+    }
+
+    .footer-copy-linha .footer-dev {
+      order: 3;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .footer-copy-linha span {
+      font-size: 8px;
+    }
+
+    .footer-copy-linha .footer-nav {
+      gap: 6px;
+      font-size: 8px;
+    }
+
+    .footer-copy-linha .footer-dev a {
+      font-size: 8px;
+    }
+  }
+
+  .slider-wrapper {
+    position: relative;
+  }
+
+  .produtos-grid {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .produtos-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .produtos-grid .produto-card {
+    flex: 0 0 calc((100% - 48px) / 3);
+    scroll-snap-align: start;
+  }
+
+  /* Grade do catálogo único: sem carrossel, quebra linha e cresce sozinha
+     conforme mais produtos são adicionados no JS. Usa flex (não grid) pra
+     que a última linha, quando incompleta, fique centralizada em vez de
+     grudada na esquerda. */
+  .produtos-grid.grade {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: visible;
+    gap: 24px;
+  }
+
+  .produtos-grid.grade .produto-card {
+    flex: 1 1 230px;
+    max-width: 300px;
+  }
+
+  .slider-seta {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--branco);
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    color: var(--rosa-texto);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .slider-seta.prev {
+    left: -20px;
+  }
+
+  .slider-seta.next {
+    right: -20px;
+  }
+
+  .produto-card {
+    background: var(--branco);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(122,74,58,0.08);
+    border: 1px solid var(--rosa-claro);
+  }
+
+  .produto-info h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+  }
+
+  .produto-img {
+    position: relative;
+    aspect-ratio: 4/3;
+    background: var(--rosa-claro);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--rosa-texto);
+    font-size: 13px;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .produto-img-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.9s ease;
+  }
+
+  .produto-img-slide.ativa {
+    opacity: 1;
+  }
+
+  .produto-img-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    z-index: 2;
+  }
+
+  .produto-img-dots .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .produto-img-dots .dot.ativo {
+    background: var(--branco);
+    transform: scale(1.3);
+  }
+
+  /* ===== MODAL DE FOTOS DO PRODUTO ===== */
+  .img-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(35,15,18,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    padding: 24px;
+    transition: opacity 0.25s ease;
+  }
+
+  .img-modal.aberto {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .img-modal-conteudo {
+    max-width: min(90vw, 560px);
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .img-modal-conteudo img {
+    max-width: 100%;
+    max-height: 75vh;
+    border-radius: 16px;
+    object-fit: contain;
+    background: var(--branco);
+    border: 2px solid var(--cobre-claro);
+  }
+
+  .img-modal-legenda {
+    color: var(--branco);
+    font-size: 14px;
+    text-align: center;
+    font-family: 'Jost', 'Segoe UI', Arial, sans-serif;
+  }
+
+  .img-modal-fechar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.15);
+    color: var(--branco);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .img-modal-seta {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.15);
+    color: var(--branco);
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .img-modal-seta.prev { left: 20px; }
+  .img-modal-seta.next { right: 20px; }
+
+  @media (max-width: 600px) {
+    .img-modal-seta { width: 36px; height: 36px; }
+    .img-modal-fechar { width: 34px; height: 34px; top: 12px; right: 12px; }
+    .img-modal-seta.prev { left: 12px; }
+    .img-modal-seta.next { right: 12px; }
+  }
+
+  .produto-info {
+    padding: 16px;
+  }
+
+  .produto-info h3 {
+    font-size: 15px;
+    color: var(--rosa-texto);
+    margin-bottom: 4px;
+  }
+
+  .produto-info p {
+    font-size: 12px;
+    color: var(--rosa-texto);
+    margin-bottom: 12px;
+  }
+
+  .produto-preco {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .produto-preco span {
+    font-weight: 700;
+    color: var(--rosa-texto);
+    font-size: 16px;
+  }
+
+  .btn-add {
+    background: var(--rosa-claro);
+    color: var(--cobre);
+    border: 1px solid var(--cobre-claro);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .btn-add:hover {
+    background: var(--cobre);
+    color: var(--branco);
+    border-color: var(--cobre);
+  }
+
+  /* ===== RESPONSIVO ===== */
+  @media (max-width: 900px) {
+    header .section-inner {
+      justify-content: space-between;
+    }
+    .logo {
+      order: 1;
+    }
+    .hamburger {
+      display: flex;
+      order: 2;
+    }
+    .menu-wrap {
+      order: 3;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--branco);
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+      display: none;
+      z-index: 95;
+    }
+    .menu-wrap.aberto {
+      display: flex;
+    }
+    header .section-inner {
+      position: relative;
+    }
+    nav ul {
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+    .hero.section-inner {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+    .hero-card {
+      grid-template-columns: 1fr;
+    }
+    .hero-image {
+      min-height: 220px;
+    }
+    .hero-content {
+      padding: 32px 24px;
+      align-items: center;
+      text-align: center;
+    }
+    .hero-content p {
+      max-width: 100%;
+    }
+    .tags {
+      justify-content: center;
+    }
+    .sobre-card {
+      padding: 28px 20px;
+    }
+    .sobre-top {
+      grid-template-columns: 1fr;
+    }
+    .sobre-text {
+      text-align: center;
+    }
+    .sobre-eyebrow {
+      justify-content: center;
+    }
+    .sobre-text p {
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .sobre-cards {
+      grid-template-columns: 1fr;
+    }
+    .categorias {
+      gap: 16px 10px;
+    }
+    .categoria-item {
+      width: calc(33.333% - 7px);
+    }
+    .categoria-img {
+      max-width: 72px;
+      font-size: 11px;
+    }
+    .categoria-item span {
+      font-size: 12px;
+    }
+    .produtos-grid .produto-card {
+      flex: 0 0 calc((100% - 16px) / 2);
+      display: flex;
+      flex-direction: column;
+    }
+    .produtos-grid .produto-card .produto-info {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .produtos-grid {
+      gap: 16px;
+    }
+    .slider-seta {
+      width: 32px;
+      height: 32px;
+      font-size: 14px;
+    }
+    .slider-seta.prev {
+      left: -8px;
+    }
+    .slider-seta.next {
+      right: -8px;
+    }
+    .produto-preco {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      margin-top: auto;
+    }
+    .produto-preco span {
+      font-size: 14px;
+    }
+    .btn-add {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute">
+    <clipPath id="waveClip" clipPathUnits="objectBoundingBox">
+      <path d="M0,0 L1,0 L1,0.72
+               C0.92,0.9 0.83,0.55 0.75,0.72
+               C0.67,0.9 0.58,0.55 0.5,0.72
+               C0.42,0.9 0.33,0.55 0.25,0.72
+               C0.17,0.9 0.08,0.55 0,0.72 Z"/>
+    </clipPath>
+    <clipPath id="waveClipRodape" clipPathUnits="objectBoundingBox">
+      <path d="M0,0.15 C0.08,0.3 0.17,0 0.25,0.15
+               C0.33,0.3 0.42,0 0.5,0.15
+               C0.58,0.3 0.67,0 0.75,0.15
+               C0.83,0.3 0.92,0 1,0.15
+               L1,1 L0,1 Z"/>
+    </clipPath>
+  </svg>
+
+  <!-- HEADER -->
+  <header id="topo">
+   <div class="section-inner header-row">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="logo">
+      <div class="logo-placeholder"><img src="assets/imagens/logo.png" alt="Rose Doceria"></div>
+    </div>
+
+    <div class="menu-wrap" id="menuWrap">
+      <nav>
+        <ul>
+          <li><a href="#topo">Sobre</a></li>
+          <li><a href="#destaques">Produtos</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+      <button class="btn-header" id="btnCarrinho">Carrinho (0)</button>
+    </div>
+   </div>
+  </header>
+
+  <button class="cart-flutuante" id="cartFlutuante" aria-label="Abrir carrinho">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 3h2l.4 2M7 13h10l3-7H5.4M7 13L5.4 5M7 13l-2.3 4.6A1 1 0 005.6 19H17M17 19a2 2 0 100 4 2 2 0 000-4zM9 19a2 2 0 100 4 2 2 0 000-4z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="cart-flutuante-badge" id="cartFlutuanteBadge">0</span>
+  </button>
+
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-painel" id="cartPainel" aria-hidden="true">
+    <div class="cart-topo">
+      <h3>Seu carrinho</h3>
+      <button class="cart-fechar" id="cartFechar" aria-label="Fechar carrinho">&times;</button>
+
+    </div>
+
+    <div class="cart-lista" id="cartLista">
+      <p class="cart-vazio" id="cartVazio">Seu carrinho está vazio.</p>
+    </div>
+
+    <div class="cart-acoes">
+      <button class="cart-btn-secundario" id="cartDesfazer" disabled>Desfazer</button>
+      <button class="cart-btn-secundario" id="cartLimpar" disabled>Esvaziar carrinho</button>
+    </div>
+
+    <div class="cart-rodape">
+      <div class="cart-pagamento">
+        <span class="cart-pagamento-label">Forma de pagamento</span>
+        <div class="cart-pagamento-opcoes" id="cartPagamentoOpcoes">
+          <button type="button" class="pagamento-pill" data-forma="Pix">Pix</button>
+          <button type="button" class="pagamento-pill" data-forma="Dinheiro">Dinheiro</button>
+          <button type="button" class="pagamento-pill" data-forma="Cartão">Cartão</button>
+        </div>
+      </div>
+      <div class="cart-total">
+        <span>Total</span>
+        <strong id="cartTotal">R$ 0,00</strong>
+      </div>
+      <button class="cart-btn-finalizar" id="cartFinalizar" disabled>Finalizar Compra</button>
+    </div>
+  </aside>
+
+  <!-- MODAL DE FOTOS DO PRODUTO -->
+  <div class="img-modal" id="imgModal" aria-hidden="true">
+    <button class="img-modal-fechar" id="imgModalFechar" aria-label="Fechar">&times;</button>
+    <button class="img-modal-seta prev" id="imgModalPrev" aria-label="Foto anterior">&#10094;</button>
+    <div class="img-modal-conteudo">
+      <img id="imgModalImg" src="" alt="">
+      <div class="img-modal-legenda" id="imgModalLegenda"></div>
+    </div>
+    <button class="img-modal-seta next" id="imgModalNext" aria-label="Próxima foto">&#10095;</button>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero section-inner">
+    <div class="hero-card">
+
+      <div class="hero-image" id="heroSlideshow" role="button" tabindex="0" aria-label="Fotos dos nossos doces. Clique para pausar ou continuar"></div>
+
+      <div class="hero-content">
+        <img class="hero-logo" src="assets/imagens/logo-rose-doceria.png" alt="Rose Doceria - Doçuras feitas com amor">
+        <p>Doces artesanais feitos sob encomenda em Imbituba/SC. Bolos, tortas, docinhos finos e muito mais, com entrega combinada pelo WhatsApp.</p>
+        <div class="tags">
+          <span class="tag-pill">ARTESANAL</span>
+          <span class="tag-pill">ENCOMENDAS</span>
+          <span class="tag-pill">FEITO COM AMOR</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PRODUTOS -->
+  <section id="produtos" class="section-inner">
+
+    <h2 class="produtos-titulo">Nosso cardápio</h2>
+    <div class="destaques-titulo" id="destaques">Feito com amor, pra você escolher</div>
+
+    <div class="produtos-grid grade" data-categoria="catalogo"></div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-body">
+      <div id="contato" class="section-inner footer-conteudo">
+        <div class="footer-logo"><img src="assets/imagens/logo.png" alt="Rose Doceria"></div>
+
+        <div class="footer-social">
+          <div class="footer-social-icones">
+            <a href="https://www.instagram.com/rosedoceria.oficial/" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2c2.7 0 3.05.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.15.55.55.9 1.11 1.15 1.77.25.64.42 1.37.47 2.43.05 1.07.06 1.42.06 4.12s-.01 3.05-.06 4.12c-.05 1.06-.22 1.79-.47 2.43-.26.66-.6 1.22-1.15 1.77-.55.55-1.11.9-1.77 1.15-.64.25-1.37.42-2.43.47-1.07.05-1.42.06-4.12.06s-3.05-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47-.66-.26-1.22-.6-1.77-1.15-.55-.55-.9-1.11-1.15-1.77-.25-.64-.42-1.37-.47-2.43C2.01 15.05 2 14.7 2 12s.01-3.05.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.22 1.15-1.77.55-.55 1.11-.9 1.77-1.15.64-.25 1.37-.42 2.43-.47C8.95 2.01 9.3 2 12 2zm0 5a5 5 0 100 10 5 5 0 000-10zm0 8.2a3.2 3.2 0 110-6.4 3.2 3.2 0 010 6.4zm5.4-8.4a1.2 1.2 0 100-2.4 1.2 1.2 0 000 2.4z"/></svg>
+            </a>
+            <a href="https://api.whatsapp.com/send?phone=5548996647735&text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20fazer%20uma%20encomenda%20%F0%9F%8C%B9" target="_blank" rel="noopener" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24"><path d="M12.02 2C6.5 2 2.03 6.48 2.03 12c0 1.77.46 3.44 1.27 4.89L2 22l5.25-1.27a9.9 9.9 0 004.77 1.22h.01c5.52 0 10-4.48 10-10S17.54 2 12.02 2zm0 18.1c-1.5 0-2.95-.4-4.2-1.15l-.3-.18-3.12.76.83-3.04-.2-.31a8.1 8.1 0 01-1.24-4.32c0-4.5 3.66-8.16 8.16-8.16s8.16 3.66 8.16 8.16-3.66 8.24-8.29 8.24zm4.52-6.1c-.25-.13-1.47-.72-1.7-.8-.23-.08-.4-.13-.56.13-.17.25-.65.8-.8.97-.15.17-.3.19-.55.06-.25-.13-1.06-.39-2.02-1.24-.75-.66-1.25-1.48-1.4-1.73-.15-.25-.02-.39.11-.51.11-.11.25-.3.37-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.08 0 1.23.9 2.42 1.02 2.58.13.17 1.77 2.7 4.28 3.79.6.26 1.06.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.16-.48-.29z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-copy">
+        <div class="section-inner footer-copy-linha">
+          <span class="footer-rights">© 2026 Rose Doceria. Todos os direitos reservados.</span>
+          <ul class="footer-nav">
+            <li><a href="#topo">Sobre</a></li>
+            <li><a href="#destaques">Produtos</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+          <span class="footer-dev">Website desenvolvido por <a href="https://amplifying.com.br/servicos" target="_blank" rel="noopener">AMPLIFYING</a></span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== Carrinho =====
+    let carrinho = []; // [{ nome, preco, qtd }]
+    let historico = []; // pilha de estados anteriores, pra função "Desfazer"
+
+    const btnCarrinho = document.getElementById('btnCarrinho');
+    const cartFlutuante = document.getElementById('cartFlutuante');
+    const cartFlutuanteBadge = document.getElementById('cartFlutuanteBadge');
+    const cartOverlay = document.getElementById('cartOverlay');
+    const cartPainel = document.getElementById('cartPainel');
+    const cartFechar = document.getElementById('cartFechar');
+    const cartLista = document.getElementById('cartLista');
+    const cartVazio = document.getElementById('cartVazio');
+    const cartTotal = document.getElementById('cartTotal');
+    const cartDesfazer = document.getElementById('cartDesfazer');
+    const cartLimpar = document.getElementById('cartLimpar');
+    const cartFinalizar = document.getElementById('cartFinalizar');
+    const cartPagamentoOpcoes = document.getElementById('cartPagamentoOpcoes');
+
+    let formaPagamento = null;
+
+    cartPagamentoOpcoes.querySelectorAll('.pagamento-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        formaPagamento = pill.dataset.forma;
+        cartPagamentoOpcoes.querySelectorAll('.pagamento-pill').forEach(p => p.classList.remove('selecionada'));
+        pill.classList.add('selecionada');
+      });
+    });
+
+    function formatarPreco(valor) {
+      return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function salvarHistorico() {
+      // guarda uma cópia do estado atual antes de qualquer mudança
+      historico.push(JSON.parse(JSON.stringify(carrinho)));
+      cartDesfazer.disabled = false;
+    }
+
+    function totalItens() {
+      return carrinho.reduce((soma, item) => soma + item.qtd, 0);
+    }
+
+    function totalPreco() {
+      return carrinho.reduce((soma, item) => soma + item.qtd * item.preco, 0);
+    }
+
+    function atualizarBotaoCarrinho() {
+      btnCarrinho.textContent = `Carrinho (${totalItens()})`;
+      cartFlutuanteBadge.textContent = totalItens();
+    }
+
+    function renderizarCarrinho() {
+      atualizarBotaoCarrinho();
+      cartTotal.textContent = formatarPreco(totalPreco());
+
+      const vazio = carrinho.length === 0;
+      cartLimpar.disabled = vazio;
+      cartFinalizar.disabled = vazio;
+      cartVazio.style.display = vazio ? 'block' : 'none';
+
+      cartLista.querySelectorAll('.cart-item').forEach(el => el.remove());
+
+      carrinho.forEach((item, index) => {
+        const el = document.createElement('div');
+        el.className = 'cart-item';
+        el.innerHTML = `
+          <div class="cart-item-info">
+            <span class="cart-item-nome">${item.nome}</span>
+            <span class="cart-item-preco">${formatarPreco(item.preco)} ${item.qtd > 1 ? `<span class="cart-item-qtd">x${item.qtd}</span>` : ''}</span>
+          </div>
+          <button class="cart-item-remover" aria-label="Remover ${item.nome}" data-index="${index}">&times;</button>
+        `;
+        cartLista.appendChild(el);
+      });
+
+      cartLista.querySelectorAll('.cart-item-remover').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.dataset.index);
+          salvarHistorico();
+          if (carrinho[idx].qtd > 1) {
+            carrinho[idx].qtd -= 1;
+          } else {
+            carrinho.splice(idx, 1);
+          }
+          renderizarCarrinho();
+        });
+      });
+    }
+
+    function abrirCarrinho() {
+      cartOverlay.classList.add('aberto');
+      cartPainel.classList.add('aberto');
+      cartPainel.setAttribute('aria-hidden', 'false');
+      cartFlutuante.classList.remove('visivel');
+    }
+
+    function fecharCarrinho() {
+      cartOverlay.classList.remove('aberto');
+      cartPainel.classList.remove('aberto');
+      cartPainel.setAttribute('aria-hidden', 'true');
+    }
+
+    btnCarrinho.addEventListener('click', abrirCarrinho);
+    cartFlutuante.addEventListener('click', abrirCarrinho);
+    cartFechar.addEventListener('click', fecharCarrinho);
+    cartOverlay.addEventListener('click', fecharCarrinho);
+
+    cartDesfazer.addEventListener('click', () => {
+      if (historico.length === 0) return;
+      carrinho = historico.pop();
+      cartDesfazer.disabled = historico.length === 0;
+      renderizarCarrinho();
+    });
+
+    cartLimpar.addEventListener('click', () => {
+      if (carrinho.length === 0) return;
+      salvarHistorico();
+      carrinho = [];
+      formaPagamento = null;
+      cartPagamentoOpcoes.querySelectorAll('.pagamento-pill').forEach(p => p.classList.remove('selecionada'));
+      renderizarCarrinho();
+    });
+
+    cartFinalizar.addEventListener('click', () => {
+      if (carrinho.length === 0) return;
+
+      if (!formaPagamento) {
+        cartPagamentoOpcoes.classList.add('erro');
+        cartPagamentoOpcoes.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      cartPagamentoOpcoes.classList.remove('erro');
+
+      const numeroWhats = '5548996647735';
+
+      let mensagem = 'Olá! Gostaria de fazer o seguinte pedido:\n\n';
+      carrinho.forEach(item => {
+        const subtotal = item.qtd * item.preco;
+        mensagem += `• ${item.qtd}x ${item.nome} - R$ ${formatarPreco(subtotal)}\n`;
+      });
+      mensagem += `\nTotal: R$ ${formatarPreco(totalPreco())}`;
+      mensagem += `\nForma de pagamento: ${formaPagamento}`;
+
+      const url = `https://api.whatsapp.com/send?phone=${numeroWhats}&text=${encodeURIComponent(mensagem)}`;
+      window.open(url, '_blank');
+    });
+
+    renderizarCarrinho();
+
+    // Mostra o carrinho flutuante quando a topbar sai de vista rolando a página
+    function aoRolar() {
+      const headerAltura = document.querySelector('header').offsetHeight;
+      if (window.scrollY > headerAltura) {
+        cartFlutuante.classList.add('visivel');
+      } else {
+        cartFlutuante.classList.remove('visivel');
+      }
+    }
+
+    window.addEventListener('scroll', aoRolar, { passive: true });
+
+    // Adicionar produto ao carrinho
+    // Delegação de evento no document: funciona mesmo com os cards
+    // sendo criados dinamicamente pelo script de renderização de produtos.
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.btn-add');
+      if (!btn) return;
+
+      const nome = btn.dataset.nome;
+      const preco = parseFloat(btn.dataset.preco);
+
+      salvarHistorico();
+
+      const existente = carrinho.find(item => item.nome === nome);
+      if (existente) {
+        existente.qtd += 1;
+      } else {
+        carrinho.push({ nome, preco, qtd: 1 });
+      }
+
+      renderizarCarrinho();
+
+      // feedback rápido no próprio botão
+      const textoOriginal = btn.textContent;
+      btn.textContent = 'Adicionado!';
+      setTimeout(() => { btn.textContent = textoOriginal; }, 1000);
+    });
+
+    // Menu hambúrguer (mobile)
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const menuWrap = document.getElementById('menuWrap');
+
+    hamburgerBtn.addEventListener('click', () => {
+      const aberto = menuWrap.classList.toggle('aberto');
+      hamburgerBtn.setAttribute('aria-expanded', aberto);
+    });
+
+    // Fecha o menu ao clicar em um link
+    menuWrap.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('click', () => {
+        menuWrap.classList.remove('aberto');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+
+  <script>
+    // ===== DADOS DOS PRODUTOS =====
+    // Catálogo único (sortido) da Rose Doceria. Pra adicionar, editar ou remover
+    // um produto, mexa só nessa lista — o grid se ajusta e quebra linha sozinho,
+    // não importa quantos itens tiver.
+    // Fotos reais da Rose Doceria, já usando os nomes de arquivo da pasta
+    // assets/imagens/ (todos em .jpg). Produtos com mais de uma foto usam
+    // "imagens: [...]" e o card passa o slide sozinho a cada 3s.
+    const produtosPorCategoria = {
+      catalogo: [
+        { nome: "Nossos brigadeiros", descricao: "Caixinha com 4 unidades de 30 gramas cada", preco: 15.00,
+          imagens: [
+            "assets/imagens/nossosbrigadeiros1.jpg",
+            "assets/imagens/nossosbrigadeiros2.jpg",
+            "assets/imagens/nossosbrigadeiros3.jpg",
+            "assets/imagens/nossosbrigadeiros4.jpg",
+            "assets/imagens/nossosbrigadeiros5.jpg",
+            "assets/imagens/nossosbrigadeiros6.jpg",
+            "assets/imagens/nossosbrigadeiros7.jpg",
+            "assets/imagens/nossosbrigadeiros8.jpg",
+            "assets/imagens/nossosbrigadeiros9.jpg",
+            "assets/imagens/nossosbrigadeiros10.jpg",
+          ] },
+        { nome: "Caixinhas com 12 docinhos", descricao: "Sabores sortidos", preco: 45.00,
+          imagens: [
+            "assets/imagens/caixacom121.jpg",
+            "assets/imagens/caixacom122.jpg",
+            "assets/imagens/caixacom123.jpg",
+          ] },
+        { nome: "Tortinhas cenoura com brigadeiro", descricao: "Massa de cenoura com cobertura de brigadeiro", preco: 15.00,
+          imagens: [
+            "assets/imagens/tortacenoura1.jpg",
+            "assets/imagens/tortacenoura2.jpg",
+            "assets/imagens/tortacenoura3.jpg",
+          ] },
+        { nome: "Cupcake gourmet", descricao: "Sabores variados, unidade", preco: 12.00,
+          imagens: [
+            "assets/imagens/cupcake1.jpg",
+            "assets/imagens/cupcake2.jpg",
+          ] },
+        { nome: "Caixinhas com 8 unidades sortidas", descricao: "Sabores especiais", preco: 30.00,
+          imagemUrl: "assets/imagens/caixacom81.jpg" },
+        { nome: "Bombom cereal", descricao: "Chocolate com oleaginosas", preco: 12.00,
+          imagemUrl: "assets/imagens/bombomcereal1.jpg" },
+        { nome: "Balinhas gourmet arco-íris", descricao: "20 unidades em cada potinho", preco: 12.00,
+          imagens: [
+            "assets/imagens/balinha1.jpg",
+            "assets/imagens/balinha2.jpg",
+            "assets/imagens/balinha3.jpg",
+            "assets/imagens/balinha4.jpg",
+          ] },
+        { nome: "Torta fria", descricao: "Frango com requeijão, brócolis e palmito, presunto e queijo, entre outras", preco: 15.00,
+          imagens: [
+            "assets/imagens/tortafria1.jpg",
+            "assets/imagens/tortafria2.jpg",
+            "assets/imagens/tortafria3.jpg",
+          ] },
+        { nome: "Caseirinhos gourmet", descricao: "Todos os sabores", preco: 20.00,
+          imagens: [
+            "assets/imagens/caseirinho1.jpg",
+            "assets/imagens/caseirinho2.jpg",
+            "assets/imagens/caseirinho3.jpg",
+            "assets/imagens/caseirinho4.jpg",
+            "assets/imagens/caseirinho5.jpg",
+            "assets/imagens/caseirinho6.jpg",
+            "assets/imagens/caseirinho7.jpg",
+            "assets/imagens/caseirinho8.jpg",
+          ] },
+        { nome: "Copinhos trufados", descricao: "Sabores sortidos", preco: 5.00,
+          imagemUrl: "assets/imagens/copinhos1.jpg" },
+        { nome: "Caixinhas com 6 docinhos", descricao: "Sabores sortidos", preco: 18.00,
+          imagemUrl: "assets/imagens/caixacom61.jpg" },
+      ],
+    };
+
+    function formatarPreco(valor) {
+      return valor.toFixed(2).replace('.', ',');
+    }
+
+    // ===== Slideshow aleatório do hero =====
+    // Pega uma foto de cada produto do cardápio (a primeira delas), embaralha
+    // e fica passando sozinho, sem setas nem bolinhas — só clique pra pausar/continuar.
+    (function iniciarHeroSlideshow() {
+      const container = document.getElementById('heroSlideshow');
+      if (!container) return;
+
+      const todosProdutos = Object.values(produtosPorCategoria).flat();
+      const fotos = todosProdutos
+        .map(p => (p.imagens && p.imagens.length ? p.imagens[0] : p.imagemUrl))
+        .filter(Boolean);
+
+      // Embaralha (Fisher-Yates)
+      for (let i = fotos.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [fotos[i], fotos[j]] = [fotos[j], fotos[i]];
+      }
+
+      if (!fotos.length) return;
+
+      container.innerHTML = fotos.map((src, i) =>
+        `<img class="hero-slide${i === 0 ? ' ativa' : ''}" src="${src}" alt="Doce Rose Doceria">`
+      ).join('');
+
+      const slides = container.querySelectorAll('.hero-slide');
+      let indice = 0;
+      let timer = null;
+      let pausado = false;
+
+      function proximaFoto() {
+        slides[indice].classList.remove('ativa');
+        indice = (indice + 1) % slides.length;
+        slides[indice].classList.add('ativa');
+      }
+
+      function iniciar() {
+        if (slides.length < 2) return;
+        timer = setInterval(proximaFoto, 4000);
+      }
+
+      function parar() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      container.addEventListener('click', () => {
+        pausado = !pausado;
+        container.classList.toggle('pausado', pausado);
+        if (pausado) parar();
+        else iniciar();
+      });
+
+      container.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          container.click();
+        }
+      });
+
+      iniciar();
+    })();
+
+    // ===== Slideshow das fotos do produto + modal de visualização =====
+    // Cada produto pode ter mais de uma foto: basta usar "imagens: [url1, url2, ...]"
+    // no lugar de "imagemUrl" lá em cima nos dados do produto. Com 2+ fotos, o card
+    // troca de foto sozinho a cada 3s (fade suave); com 1 foto só, fica parado.
+    const todosSliders = [];
+    const ATRASO_ENTRE_CARDS = 1800; // ms de defasagem entre o início de cada card
+
+    function iniciarAutoplaySlider(slider, comAtraso) {
+      pararAutoplaySlider(slider);
+      if (slider.total < 2) return;
+
+      const atraso = comAtraso ? (slider.atrasoInicial || 0) : 0;
+
+      slider.timeoutInicial = setTimeout(() => {
+        avancarSlider(slider);
+        slider.timer = setInterval(() => avancarSlider(slider), 3000);
+      }, atraso);
+    }
+
+    function pararAutoplaySlider(slider) {
+      if (slider.timeoutInicial) {
+        clearTimeout(slider.timeoutInicial);
+        slider.timeoutInicial = null;
+      }
+      if (slider.timer) {
+        clearInterval(slider.timer);
+        slider.timer = null;
+      }
+    }
+
+    function avancarSlider(slider) {
+      const slides = slider.container.querySelectorAll('.produto-img-slide');
+      const dots = slider.container.querySelectorAll('.dot');
+      slides[slider.indice].classList.remove('ativa');
+      if (dots[slider.indice]) dots[slider.indice].classList.remove('ativo');
+      slider.indice = (slider.indice + 1) % slider.total;
+      slides[slider.indice].classList.add('ativa');
+      if (dots[slider.indice]) dots[slider.indice].classList.add('ativo');
+      slider.container.dataset.indiceAtual = slider.indice;
+    }
+
+    function pausarTodosSliders() {
+      todosSliders.forEach(pararAutoplaySlider);
+    }
+
+    function retomarTodosSliders() {
+      todosSliders.forEach(slider => iniciarAutoplaySlider(slider, false));
+    }
+
+    function criarCardProduto(produto) {
+      const card = document.createElement('div');
+      card.className = 'produto-card';
+
+      const imagens = (produto.imagens && produto.imagens.length)
+        ? produto.imagens
+        : [produto.imagemUrl || `assets/imagens/produto-${produto.lock}.jpg`];
+
+      const slidesHtml = imagens.map((src, i) =>
+        `<img class="produto-img-slide${i === 0 ? ' ativa' : ''}" src="${src}" alt="${produto.nome}">`
+      ).join('');
+
+      const dotsHtml = imagens.length > 1
+        ? `<div class="produto-img-dots">${imagens.map((_, i) => `<span class="dot${i === 0 ? ' ativo' : ''}"></span>`).join('')}</div>`
+        : '';
+
+      card.innerHTML = `
+        <div class="produto-img" role="button" tabindex="0" aria-label="Ver fotos de ${produto.nome}" data-indice-atual="0">
+          ${slidesHtml}
+          ${dotsHtml}
+        </div>
+        <div class="produto-info">
+          <h3>${produto.nome}</h3>
+          <p>${produto.descricao}</p>
+          <div class="produto-preco">
+            <span>R$ ${formatarPreco(produto.preco)}</span>
+            <button class="btn-add" data-nome="${produto.nome}" data-preco="${produto.preco.toFixed(2)}">Adicionar</button>
+          </div>
+        </div>
+      `;
+
+      const imgContainer = card.querySelector('.produto-img');
+
+      if (imagens.length > 1) {
+        const slider = {
+          container: imgContainer,
+          total: imagens.length,
+          indice: 0,
+          timer: null,
+          timeoutInicial: null,
+          atrasoInicial: todosSliders.length * ATRASO_ENTRE_CARDS
+        };
+        todosSliders.push(slider);
+        iniciarAutoplaySlider(slider, true);
+      }
+
+      const abrirModalDoCard = () => {
+        const indiceAtual = parseInt(imgContainer.dataset.indiceAtual) || 0;
+        abrirModalImagens(imagens, produto.nome, indiceAtual);
+      };
+      imgContainer.addEventListener('click', abrirModalDoCard);
+      imgContainer.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          abrirModalDoCard();
+        }
+      });
+
+      return card;
+    }
+
+    // Renderiza todos os grids de produto a partir de produtosPorCategoria
+    document.querySelectorAll('.produtos-grid[data-categoria]').forEach(grid => {
+      const categoria = grid.dataset.categoria;
+      const lista = produtosPorCategoria[categoria] || [];
+      lista.forEach(produto => grid.appendChild(criarCardProduto(produto)));
+    });
+
+    // ===== Modal de fotos: abre em tela cheia, com setas pra navegar =====
+    const imgModal = document.getElementById('imgModal');
+    const imgModalImg = document.getElementById('imgModalImg');
+    const imgModalLegenda = document.getElementById('imgModalLegenda');
+    const imgModalFechar = document.getElementById('imgModalFechar');
+    const imgModalPrev = document.getElementById('imgModalPrev');
+    const imgModalNext = document.getElementById('imgModalNext');
+
+    let modalImagens = [];
+    let modalNomeProduto = '';
+    let modalIndice = 0;
+
+    function atualizarModalImagem() {
+      imgModalImg.src = modalImagens[modalIndice];
+      imgModalImg.alt = modalNomeProduto;
+      imgModalLegenda.textContent = modalImagens.length > 1
+        ? `${modalNomeProduto} (${modalIndice + 1}/${modalImagens.length})`
+        : modalNomeProduto;
+    }
+
+    function abrirModalImagens(imagens, nomeProduto, indiceInicial) {
+      modalImagens = imagens;
+      modalNomeProduto = nomeProduto;
+      modalIndice = indiceInicial || 0;
+
+      // Enquanto o modal tiver aberto, os slides dos cards param de trocar sozinhos.
+      pausarTodosSliders();
+
+      atualizarModalImagem();
+      imgModal.classList.add('aberto');
+      imgModal.setAttribute('aria-hidden', 'false');
+
+      const temVarias = imagens.length > 1;
+      imgModalPrev.style.display = temVarias ? 'flex' : 'none';
+      imgModalNext.style.display = temVarias ? 'flex' : 'none';
+    }
+
+    function fecharModalImagens() {
+      imgModal.classList.remove('aberto');
+      imgModal.setAttribute('aria-hidden', 'true');
+      // Ao sair do modal, os slides voltam a trocar sozinhos.
+      retomarTodosSliders();
+    }
+
+    function modalFotoAnterior() {
+      modalIndice = (modalIndice - 1 + modalImagens.length) % modalImagens.length;
+      atualizarModalImagem();
+    }
+
+    function modalProximaFoto() {
+      modalIndice = (modalIndice + 1) % modalImagens.length;
+      atualizarModalImagem();
+    }
+
+    imgModalFechar.addEventListener('click', fecharModalImagens);
+    imgModalPrev.addEventListener('click', modalFotoAnterior);
+    imgModalNext.addEventListener('click', modalProximaFoto);
+
+    // Clicar fora da foto (no fundo escurecido) fecha o modal
+    imgModal.addEventListener('click', (e) => {
+      if (e.target === imgModal) fecharModalImagens();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!imgModal.classList.contains('aberto')) return;
+      if (e.key === 'Escape') fecharModalImagens();
+      if (e.key === 'ArrowLeft') modalFotoAnterior();
+      if (e.key === 'ArrowRight') modalProximaFoto();
+    });
+
+    // Deslizar o dedo no celular também navega entre as fotos
+    let modalToqueInicioX = 0;
+    imgModal.addEventListener('touchstart', (e) => {
+      modalToqueInicioX = e.touches[0].clientX;
+    }, { passive: true });
+    imgModal.addEventListener('touchend', (e) => {
+      const diferenca = e.changedTouches[0].clientX - modalToqueInicioX;
+      if (Math.abs(diferenca) > 40 && modalImagens.length > 1) {
+        if (diferenca > 0) modalFotoAnterior();
+        else modalProximaFoto();
+      }
+    });
+
+    // Setinhas dos sliders de produtos (Destaques, Bolos, Tortas, Doces finos, Especiais)
+    // Carrossel infinito: ao chegar num limite, volta pro outro lado.
+    document.querySelectorAll('.slider-wrapper').forEach(wrapper => {
+      const grid = wrapper.querySelector('.produtos-grid');
+      const prevBtn = wrapper.querySelector('.slider-seta.prev');
+      const nextBtn = wrapper.querySelector('.slider-seta.next');
+
+      function passo() {
+        const card = grid.querySelector('.produto-card');
+        if (!card) return 300;
+        const style = getComputedStyle(grid);
+        const gap = parseInt(style.columnGap || style.gap) || 24;
+        return card.offsetWidth + gap;
+      }
+
+      function noFinal() {
+        return grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 2;
+      }
+
+      function noInicio() {
+        return grid.scrollLeft <= 2;
+      }
+
+      prevBtn.addEventListener('click', () => {
+        if (noInicio()) {
+          grid.scrollTo({ left: grid.scrollWidth, behavior: 'smooth' });
+        } else {
+          grid.scrollBy({ left: -passo(), behavior: 'smooth' });
+        }
+      });
+
+      nextBtn.addEventListener('click', () => {
+        if (noFinal()) {
+          grid.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          grid.scrollBy({ left: passo(), behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
